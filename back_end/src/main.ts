@@ -23,9 +23,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use(json());
-  // const allowedOrigins = [process.env.CLIENT_URL1, process.env.CLIENT_URL2];
-  app.use(json());
-  const allowedOrigins = ['http://localhost:3000'];
+  const allowedOrigins = [process.env.CLIENT_URL1];
+  // app.use(json());
+  // const allowedOrigins = ['http://localhost:3000'];
   app.enableCors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
