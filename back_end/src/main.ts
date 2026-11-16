@@ -22,8 +22,8 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.use(cookieParser());
   app.use(morgan('dev'));
-  app.use(json());
   const allowedOrigins = [process.env.CLIENT_URL1];
+  app.use(json());
   // app.use(json());
   // const allowedOrigins = ['http://localhost:3000'];
   app.enableCors({
