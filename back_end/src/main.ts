@@ -22,20 +22,20 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.use(cookieParser());
   app.use(morgan('dev'));
-  const allowedOrigins = [process.env.CLIENT_URL1];
-  app.use(json());
+  // const allowedOrigins = [process.env.CLIENT_URL1];
+  // app.use(json());
   // app.use(json());
   // const allowedOrigins = ['http://localhost:3000'];
-  app.enableCors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  });
+  // app.enableCors({
+  //   origin: (origin, callback) => {
+  //     if (!origin || allowedOrigins.includes(origin)) {
+  //       callback(null, true);
+  //     } else {
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   credentials: true,
+  // });
 
   app.enableShutdownHooks();
   await app.listen(process.env.PORT || 3001);
