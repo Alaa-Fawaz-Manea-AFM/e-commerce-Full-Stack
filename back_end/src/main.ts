@@ -23,8 +23,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use(json());
-  const allowedOrigins = [process.env.CLIENT_URL1];
-  // const allowedOrigins = ['http://localhost:3000'];
+  // const allowedOrigins = [process.env.CLIENT_URL1];
+  const allowedOrigins = [ 'http://localhost:3000',
+      'https://e-commerce-full-stack-ahuk0.vercel.app'];
   app.enableCors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
