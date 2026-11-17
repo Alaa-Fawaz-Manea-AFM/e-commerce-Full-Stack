@@ -12,6 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonConfig,
   });
+
   app.use(helmet());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -23,9 +24,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use(json());
-  // const allowedOrigins = [process.env.CLIENT_URL1];
-  const allowedOrigins = [ 'http://localhost:3000',
-      'https://e-commerce-full-stack-ahuk0.vercel.app'];
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://social-media-back-end.herokuapp.com',
+  ];
   app.enableCors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
@@ -34,12 +36,8 @@ async function bootstrap() {
         callback(new Error('Not allowed by CORS'));
       }
     },
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    // credentials: true,
   });
-
   app.enableShutdownHooks();
   await app.listen(process.env.PORT || 3001);
 }
