@@ -12,7 +12,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonConfig,
   });
-
   app.use(helmet());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -24,10 +23,9 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use(json());
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://social-media-back-end.herokuapp.com',
-  ];
+  const allowedOrigins = [process.env.CLIENT_URL1, process.env.CLIENT_URL2];
+  // app.use(json());
+  // const allowedOrigins = ['http://localhost:3000'];
   app.enableCors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
@@ -38,6 +36,7 @@ async function bootstrap() {
     },
     credentials: true,
   });
+
   app.enableShutdownHooks();
   await app.listen(process.env.PORT || 3001);
 }
