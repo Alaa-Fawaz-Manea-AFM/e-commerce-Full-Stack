@@ -12,8 +12,8 @@ datasource db {
 }
 
 enum Role {
-  user
-  admin
+  USER
+  ADMIN
 }
 
 model User {
@@ -22,7 +22,7 @@ model User {
   email      String @unique
   password   String
   cartCounts Int    @default(0)
-  role       Role   @default(user)
+  role       Role   @default(USER)
 
   productCounts Int @default(0)
 

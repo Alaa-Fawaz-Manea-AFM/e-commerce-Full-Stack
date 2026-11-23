@@ -43,13 +43,16 @@ export class AuthService {
         id: true,
       },
     });
+    console.log('====================================');
+    console.log(signUpAuthDto);
+    console.log('====================================');
 
     if (existingUser) throw new BadRequestException('Email already in use');
 
     return await this.prisma.$transaction(async (prisma) => {
       const hashedPassword = await hash(signUpAuthDto.password, 12);
       const user = await prisma.user.create({
-        data: { ...signUpAuthDto, password: hashedPassword },
+        data: { ...signUpAuthDto, role: 'USER', password: hashedPassword },
         select: {
           id: true,
           name: true,

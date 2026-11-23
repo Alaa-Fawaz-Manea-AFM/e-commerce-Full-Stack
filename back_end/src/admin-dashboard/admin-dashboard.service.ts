@@ -14,7 +14,7 @@ export class AdminDashboardService {
     const [users, totalPages] = await Promise.all([
       this.prisma.user.findMany({
         where: {
-          role: Role.user,
+          role: Role.USER,
         },
         take: limit,
         skip,
@@ -27,7 +27,7 @@ export class AdminDashboardService {
       }),
       this.prisma.user.count({
         where: {
-          role: Role.user,
+          role: Role.USER,
         },
       }),
     ]);

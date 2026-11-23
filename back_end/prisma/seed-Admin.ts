@@ -37,7 +37,7 @@ async function main() {
       name: 'Super Admin',
       email: adminEmail,
       password: hashedPassword,
-      role: Role.admin,
+      role: Role.ADMIN,
     },
   });
 }
