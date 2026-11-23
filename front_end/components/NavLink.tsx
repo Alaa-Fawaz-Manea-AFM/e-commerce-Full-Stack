@@ -1,7 +1,7 @@
 "use client";
 import { useUserContext } from "@/context/MyState";
 import { FaPowerOff } from "react-icons/fa";
-import { ROLE_ADMIN, validEmail } from "@/constant/api";
+import { ROLE_ADMIN } from "@/constant/api";
 import { Avatar } from "@/public/assets";
 import Image from "next/image";
 import Link from "next/link";

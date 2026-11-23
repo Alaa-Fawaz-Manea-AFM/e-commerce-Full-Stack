@@ -3,7 +3,6 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { homeImagesSlider } from "@/constant/Constant";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-import Link from "next/link";
 
 import "swiper/css";
 import "swiper/css/navigation";

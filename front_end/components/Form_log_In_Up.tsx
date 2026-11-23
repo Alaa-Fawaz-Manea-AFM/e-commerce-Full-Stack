@@ -109,55 +109,53 @@ const Form_log_In_Up = ({ title, InputLog_In_Up }: IForm_log_In_Up) => {
               </button>
             )}
           </div>
-          {item.name === "password" &&
-            title === "Sign Up" &&
-            password.length > 0 && (
-              <div className="mt-1 space-y-2 p-3 rounded-lg border border-zinc-800 dark:bg-zinc-900/30">
-                <div className="flex justify-between items-center text-xs font-semibold">
-                  <span className="text-gray_tx">Password Strength:</span>
-                  <span
-                    className={
-                      fulfilledCount === 1
-                        ? "text-red-500"
-                        : fulfilledCount === 2
-                          ? "text-orange-500"
-                          : "text-custom-green"
-                    }
-                  >
-                    {strengthLabel}
-                  </span>
+          {item.name === "password" && password.length > 0 && (
+            <div className="mt-1 space-y-2 p-3 rounded-lg border border-zinc-800 dark:bg-zinc-900/30">
+              <div className="flex justify-between items-center text-xs font-semibold">
+                <span className="text-gray_tx">Password Strength:</span>
+                <span
+                  className={
+                    fulfilledCount === 1
+                      ? "text-red-500"
+                      : fulfilledCount === 2
+                        ? "text-orange-500"
+                        : "text-custom-green"
+                  }
+                >
+                  {strengthLabel}
+                </span>
+              </div>
+
+              <div className="w-full h-1.5 bg-zinc-700/40 rounded-full overflow-hidden">
+                <div
+                  className={`h-full ${strengthColor} ${strengthWidth} duration-300 transition-all`}
+                />
+              </div>
+
+              <div className="pt-1 space-y-1 text-xs">
+                <div
+                  className={`${hasThreeDigits ? "text-custom-green" : "text-red-500"} flex items-center gap-2`}
+                >
+                  <span>{hasThreeDigits ? "✓" : "✗"}</span>
+                  <span>At least 3 digits (0-9)</span>
                 </div>
 
-                <div className="w-full h-1.5 bg-zinc-700/40 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full ${strengthColor} ${strengthWidth} duration-300 transition-all`}
-                  />
+                <div
+                  className={`${hasThreeUpper ? "text-custom-green" : "text-red-500"} flex items-center gap-2`}
+                >
+                  <span>{hasThreeUpper ? "✓" : "✗"}</span>
+                  <span>At least 3 uppercase letters (A-Z)</span>
                 </div>
 
-                <div className="pt-1 space-y-1 text-xs">
-                  <div
-                    className={`${hasThreeDigits ? "text-custom-green" : "text-red-500"} flex items-center gap-2`}
-                  >
-                    <span>{hasThreeDigits ? "✓" : "✗"}</span>
-                    <span>At least 3 digits (0-9)</span>
-                  </div>
-
-                  <div
-                    className={`${hasThreeUpper ? "text-custom-green" : "text-red-500"} flex items-center gap-2`}
-                  >
-                    <span>{hasThreeUpper ? "✓" : "✗"}</span>
-                    <span>At least 3 uppercase letters (A-Z)</span>
-                  </div>
-
-                  <div
-                    className={`${hasThreeLower ? "text-custom-green" : "text-red-500"} flex items-center gap-2`}
-                  >
-                    <span>{hasThreeLower ? "✓" : "✗"}</span>
-                    <span>At least 3 lowercase letters (a-z)</span>
-                  </div>
+                <div
+                  className={`${hasThreeLower ? "text-custom-green" : "text-red-500"} flex items-center gap-2`}
+                >
+                  <span>{hasThreeLower ? "✓" : "✗"}</span>
+                  <span>At least 3 lowercase letters (a-z)</span>
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
       ))}
 
