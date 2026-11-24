@@ -137,7 +137,11 @@ const Form_add_And_Update_Prod = ({
     //   imgFormData.append("file", file);
     // });
 
-    const uploadRes = await axios.post("/api/fileupload", imgFormData);
+    const uploadRes = await axios.post("/api/fileupload", imgFormData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     if (uploadRes.status !== 200 || !uploadRes.data.images) {
       throw new Error(uploadRes.data?.msg || "Failed to upload images");

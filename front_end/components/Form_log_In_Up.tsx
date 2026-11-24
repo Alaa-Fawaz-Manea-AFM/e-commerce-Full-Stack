@@ -95,7 +95,7 @@ const Form_log_In_Up = ({ title, InputLog_In_Up }: IForm_log_In_Up) => {
 
     const data = await signUp_LogIn_Action(form, title);
     if (!data?.success) {
-      toast.success(data?.message);
+      toast.error(data?.message);
       setDisable(false);
       return;
     }

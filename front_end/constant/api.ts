@@ -27,98 +27,98 @@ export const formatDate = (createdAt: string) => {
   });
 };
 
-// export const addProduct = async (
-//   router: AppRouterInstance,
-//   images: File[],
-//   productObj: IPartialProduct,
-//   setDisableBtn: React.Dispatch<SetStateAction<boolean>>,
-//   setProducts: React.Dispatch<SetStateAction<IAdminDashboard>>,
-//   setAdminCounts: React.Dispatch<SetStateAction<IAdminDashboardCounts | null>>,
-// ) => {
-//   if (
-//     !productObj.title ||
-//     !productObj.price ||
-//     !productObj.star ||
-//     images.length === 0 ||
-//     !productObj.category?.id ||
-//     !productObj.desc
-//   )
-//     return toast.error("Please fill all fields");
+export const addProduct = async (
+  router: AppRouterInstance,
+  images: File[],
+  productObj: IPartialProduct,
+  setDisableBtn: React.Dispatch<SetStateAction<boolean>>,
+  setProducts: React.Dispatch<SetStateAction<IAdminDashboard>>,
+  setAdminCounts: React.Dispatch<SetStateAction<IAdminDashboardCounts | null>>,
+) => {
+  if (
+    !productObj.title ||
+    !productObj.price ||
+    !productObj.star ||
+    images.length === 0 ||
+    !productObj.category?.id ||
+    !productObj.desc
+  )
+    return toast.error("Please fill all fields");
 
-//   try {
-//     setDisableBtn(true);
+  try {
+    setDisableBtn(true);
 
-//     const imgFormData = new FormData();
-//     imgFormData.append("folderName", "products");
+    const imgFormData = new FormData();
+    imgFormData.append("folderName", "products");
 
-//     if (images[0]) {
-//       imgFormData.append("coverFileName", images[0]?.name);
-//     }
+    if (images[0]) {
+      imgFormData.append("coverFileName", images[0]?.name);
+    }
 
-//     images.forEach((file) => {
-//       imgFormData.append("file", file);
-//     });
+    images.forEach((file) => {
+      imgFormData.append("file", file);
+    });
 
-//     const uploadRes = await axios.post("/api/fileupload", imgFormData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
+    const uploadRes = await axios.post("/api/fileupload", imgFormData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-//     if (uploadRes.status !== 200 || !uploadRes.data.images) {
-//       throw new Error(
-//         uploadRes.data?.msg || "Failed to upload images to Cloudinary",
-//       );
-//     }
-//     const finalImages = uploadRes.data.images.map(
-//       (img: { url: string }) => img.url,
-//     );
+    if (uploadRes.status !== 200 || !uploadRes.data.images) {
+      throw new Error(
+        uploadRes.data?.msg || "Failed to upload images to Cloudinary",
+      );
+    }
+    const finalImages = uploadRes.data.images.map(
+      (img: { url: string }) => img.url,
+    );
 
-//     const imageCover = finalImages.splice(0, 1)?.[0];
+    const imageCover = finalImages.splice(0, 1)?.[0];
 
-//     const finalProductObj = {
-//       ...productObj,
-//       categoryId: productObj.category.id,
+    const finalProductObj = {
+      ...productObj,
+      categoryId: productObj.category.id,
 
-//       imageCover: imageCover,
-//       images: finalImages,
-//     };
+      imageCover: imageCover,
+      images: finalImages,
+    };
 
-//     const { data } = await AxiosClient.post("products", finalProductObj);
+    const { data } = await AxiosClient.post("products", finalProductObj);
 
-//     setProducts((pre: IAdminDashboard) => {
-//       if (!pre || !pre.products) {
-//         return {
-//           ...pre,
-//           products: [data?.data],
-//         };
-//       }
+    setProducts((pre: IAdminDashboard) => {
+      if (!pre || !pre.products) {
+        return {
+          ...pre,
+          products: [data?.data],
+        };
+      }
 
-//       return {
-//         ...pre,
-//         products: [data?.data, ...(pre.products || [])].slice(0, 10),
-//       };
-//     });
-//     setAdminCounts((pre) => {
-//       if (!pre) return pre;
+      return {
+        ...pre,
+        products: [data?.data, ...(pre.products || [])].slice(0, 10),
+      };
+    });
+    setAdminCounts((pre) => {
+      if (!pre) return pre;
 
-//       return {
-//         ...pre,
-//         productCounts: pre.productCounts + 1,
-//       };
-//     });
-//     toast.success("Product added successfully");
-//     router.push("/admin");
-//   } catch (error) {
-//     if (axios.isAxiosError(error)) {
-//       toast.error(error.response?.data?.message || "Oops, Please try again");
-//     } else {
-//       toast.error("Oops, Please try again");
-//     }
-//   } finally {
-//     setDisableBtn(false);
-//   }
-// };
+      return {
+        ...pre,
+        productCounts: pre.productCounts + 1,
+      };
+    });
+    toast.success("Product added successfully");
+    router.push("/admin");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toast.error(error.response?.data?.message || "Oops, Please try again");
+    } else {
+      toast.error("Oops, Please try again");
+    }
+  } finally {
+    setDisableBtn(false);
+  }
+};
 
 export const updateProduct = async (
   router: AppRouterInstance,
