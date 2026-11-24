@@ -41,7 +41,7 @@ const MyState = ({ children }: { children: React.ReactNode }) => {
     const fetchUser = async () => {
       const data = await getUserData();
       if (data.success) return setUser(data.data);
-      setUser(null);
+      return setUser(null);
       // try {
       // } catch {
       //   setUser(null);
