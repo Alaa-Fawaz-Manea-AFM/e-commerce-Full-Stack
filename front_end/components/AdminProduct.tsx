@@ -17,6 +17,7 @@ import { formatDate } from "@/constant/api";
 import BtnEditAndDeleteProduct from "./BtnEditAndDeleteProduct";
 import { toast } from "react-toastify";
 import BtnPaginations from "./BtnPaginations";
+import { AdminDashboardProductsAction } from "@/actions/admin";
 
 const AdminProduct = ({ page, search }: ISearchParams) => {
   const { products, setProducts, setAdminCounts } = useUserContextAdmin();
@@ -29,7 +30,10 @@ const AdminProduct = ({ page, search }: ISearchParams) => {
           ? `admin-dashboard/products?search=${search}&page=${page}`
           : `admin-dashboard/products?page=${page}`;
 
-        const { data } = await AxiosClient.get(apiUrl);
+        // const { data } = await AxiosClient.get(apiUrl);
+        const data = await AdminDashboardProductsAction(apiUrl);
+        if (!data.success) return;
+
         setProducts(data?.data);
       } catch {
         throw Error;

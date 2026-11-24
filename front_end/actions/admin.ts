@@ -22,3 +22,20 @@ export const AdminDashboardCountsAction = async () => {
     };
   }
 };
+
+export const AdminDashboardProductsAction = async (api: string) => {
+  try {
+    const response = await AxiosServer("get", api, undefined, null);
+
+    return {
+      success: true,
+      data: response.data?.data || null,
+    };
+  } catch {
+    return {
+      success: false,
+      data: null,
+      message: "Request failed, please try again.",
+    };
+  }
+};
