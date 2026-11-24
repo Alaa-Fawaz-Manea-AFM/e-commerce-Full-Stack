@@ -164,8 +164,13 @@ const Form_add_And_Update_Prod = ({
       images: finalImages,
     };
 
+    console.log("====================================");
+    console.log(finalProductObj);
+    console.log("====================================");
+
     // Add product through Server Action
     const result = await addProductAction(finalProductObj);
+    console.log(result);
 
     if (!result.success) {
       toast.error(result.message);

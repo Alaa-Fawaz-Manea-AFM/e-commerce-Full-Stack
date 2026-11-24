@@ -28,6 +28,23 @@ export const signUp_LogIn_Action = async (
   }
 };
 
+export const logOutAction = async () => {
+  try {
+    await AxiosServer("post", "auth/logout");
+    const cookieStore = await cookies();
+    cookieStore.delete("accessToken");
+
+    return {
+      success: true,
+      message: "Logged out successfully",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Logout failed, please try again.",
+    };
+  }
+};
 // export const logInAction = async (form: IForm) => {
 //   try {
 //     const response = await AxiosServer("post", "auth/login", undefined, form);

@@ -6,8 +6,9 @@ import { Avatar } from "@/public/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import AxiosClient from "@/lib/axios-client";
+// import AxiosClient from "@/lib/axios-client";
 import { useRouter } from "next/navigation";
+import { logOutAction } from "@/actions/auth";
 
 const NavLink = () => {
   const { user, setUser } = useUserContext();
@@ -18,9 +19,14 @@ const NavLink = () => {
 
   const handleSignOut = async () => {
     try {
-      await AxiosClient.post("auth/logout");
-      setUser(null);
-      router.refresh();
+      // await AxiosClient.post("auth/logout");
+      const result = await logOutAction();
+      if (result.success) {
+        setUser(null);
+        router.refresh();
+      } else {
+        toast.error(result.message);
+      }
     } catch {
       toast.error("Sign Out Failed");
     }

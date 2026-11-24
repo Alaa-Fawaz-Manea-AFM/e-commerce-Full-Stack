@@ -155,7 +155,11 @@ export class ProductService {
   }
 
   async createProduct(dataProductsDto: CreateProductDto, userId: string) {
-    const newproduct = await this.prisma.product.create({
+    console.log('====================================');
+    console.log(dataProductsDto);
+    console.log(userId);
+    console.log('====================================');
+    const newProduct = await this.prisma.product.create({
       data: { ...dataProductsDto, userId },
       select: {
         id: true,
@@ -173,8 +177,9 @@ export class ProductService {
         },
       },
     });
+    console.log(newProduct);
 
-    return sendResponsive(newproduct, 'product created successfully');
+    return sendResponsive(newProduct, 'product created successfully');
   }
 
   async updateProduct(
