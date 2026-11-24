@@ -1,5 +1,5 @@
 "use client";
-import { getUserData } from "@/actions/auth";
+import { getUserDataAction } from "@/actions/auth";
 import { ICategory, IUser } from "@/types";
 // import { getUserData } from "@/constant/api";
 import {
@@ -39,7 +39,7 @@ const MyState = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const data = await getUserData();
+      const data = await getUserDataAction();
       if (data.success) return setUser(data.data);
       return setUser(null);
       // try {

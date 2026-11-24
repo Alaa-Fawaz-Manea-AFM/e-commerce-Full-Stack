@@ -1,24 +1,20 @@
 import {
   IAdminDashboard,
   IAdminDashboardCounts,
-  ICart,
-  IForm,
   IPartialProduct,
-  IUser,
 } from "@/types";
 import { toast } from "react-toastify";
-import { Dispatch, SetStateAction } from "react";
+import { SetStateAction } from "react";
 import AxiosClient from "../lib/axios-client";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import axios from "axios";
 
-// export const validEmail = process.env.NEXT_PUBLIC_EMAIL_KEY;
 export const ROLE_ADMIN = process.env.NEXT_PUBLIC_ROLE_ADMIN;
 
-export const getUserData = async () => {
-  const { data } = await AxiosClient.get("auth/me");
-  return data?.data || null;
-};
+// export const getUserData = async () => {
+//   const { data } = await AxiosClient.get("auth/me");
+//   return data?.data || null;
+// };
 
 export const formatDate = (createdAt: string) => {
   const date = new Date(createdAt);
@@ -29,98 +25,99 @@ export const formatDate = (createdAt: string) => {
     year: "numeric",
   });
 };
-export const addProduct = async (
-  router: AppRouterInstance,
-  images: File[],
-  productObj: IPartialProduct,
-  setDisableBtn: React.Dispatch<SetStateAction<boolean>>,
-  setProducts: React.Dispatch<SetStateAction<IAdminDashboard>>,
-  setAdminCounts: React.Dispatch<SetStateAction<IAdminDashboardCounts | null>>,
-) => {
-  if (
-    !productObj.title ||
-    !productObj.price ||
-    !productObj.star ||
-    images.length === 0 ||
-    !productObj.category?.id ||
-    !productObj.desc
-  )
-    return toast.error("Please fill all fields");
 
-  try {
-    setDisableBtn(true);
+// export const addProduct = async (
+//   router: AppRouterInstance,
+//   images: File[],
+//   productObj: IPartialProduct,
+//   setDisableBtn: React.Dispatch<SetStateAction<boolean>>,
+//   setProducts: React.Dispatch<SetStateAction<IAdminDashboard>>,
+//   setAdminCounts: React.Dispatch<SetStateAction<IAdminDashboardCounts | null>>,
+// ) => {
+//   if (
+//     !productObj.title ||
+//     !productObj.price ||
+//     !productObj.star ||
+//     images.length === 0 ||
+//     !productObj.category?.id ||
+//     !productObj.desc
+//   )
+//     return toast.error("Please fill all fields");
 
-    const imgFormData = new FormData();
-    imgFormData.append("folderName", "products");
+//   try {
+//     setDisableBtn(true);
 
-    if (images[0]) {
-      imgFormData.append("coverFileName", images[0]?.name);
-    }
+//     const imgFormData = new FormData();
+//     imgFormData.append("folderName", "products");
 
-    images.forEach((file) => {
-      imgFormData.append("file", file);
-    });
+//     if (images[0]) {
+//       imgFormData.append("coverFileName", images[0]?.name);
+//     }
 
-    const uploadRes = await axios.post("/api/fileupload", imgFormData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+//     images.forEach((file) => {
+//       imgFormData.append("file", file);
+//     });
 
-    if (uploadRes.status !== 200 || !uploadRes.data.images) {
-      throw new Error(
-        uploadRes.data?.msg || "Failed to upload images to Cloudinary",
-      );
-    }
-    const finalImages = uploadRes.data.images.map(
-      (img: { url: string }) => img.url,
-    );
+//     const uploadRes = await axios.post("/api/fileupload", imgFormData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
 
-    const imageCover = finalImages.splice(0, 1)?.[0];
+//     if (uploadRes.status !== 200 || !uploadRes.data.images) {
+//       throw new Error(
+//         uploadRes.data?.msg || "Failed to upload images to Cloudinary",
+//       );
+//     }
+//     const finalImages = uploadRes.data.images.map(
+//       (img: { url: string }) => img.url,
+//     );
 
-    const finalProductObj = {
-      ...productObj,
-      categoryId: productObj.category.id,
+//     const imageCover = finalImages.splice(0, 1)?.[0];
 
-      imageCover: imageCover,
-      images: finalImages,
-    };
+//     const finalProductObj = {
+//       ...productObj,
+//       categoryId: productObj.category.id,
 
-    const { data } = await AxiosClient.post("products", finalProductObj);
+//       imageCover: imageCover,
+//       images: finalImages,
+//     };
 
-    setProducts((pre: IAdminDashboard) => {
-      if (!pre || !pre.products) {
-        return {
-          ...pre,
-          products: [data?.data],
-        };
-      }
+//     const { data } = await AxiosClient.post("products", finalProductObj);
 
-      return {
-        ...pre,
-        products: [data?.data, ...(pre.products || [])].slice(0, 10),
-      };
-    });
-    setAdminCounts((pre) => {
-      if (!pre) return pre;
+//     setProducts((pre: IAdminDashboard) => {
+//       if (!pre || !pre.products) {
+//         return {
+//           ...pre,
+//           products: [data?.data],
+//         };
+//       }
 
-      return {
-        ...pre,
-        productCounts: pre.productCounts + 1,
-      };
-    });
-    toast.success("Product added successfully");
-    router.push("/admin");
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      toast.error(error.response?.data?.message || "Oops, Please try again");
-    } else {
-      toast.error("Oops, Please try again");
-    }
-  } finally {
-    setDisableBtn(false);
-  }
-};
+//       return {
+//         ...pre,
+//         products: [data?.data, ...(pre.products || [])].slice(0, 10),
+//       };
+//     });
+//     setAdminCounts((pre) => {
+//       if (!pre) return pre;
+
+//       return {
+//         ...pre,
+//         productCounts: pre.productCounts + 1,
+//       };
+//     });
+//     toast.success("Product added successfully");
+//     router.push("/admin");
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) {
+//       toast.error(error.response?.data?.message || "Oops, Please try again");
+//     } else {
+//       toast.error("Oops, Please try again");
+//     }
+//   } finally {
+//     setDisableBtn(false);
+//   }
+// };
 
 export const updateProduct = async (
   router: AppRouterInstance,
@@ -204,66 +201,69 @@ export const updateProduct = async (
   }
 };
 
-export const handleToogleCart = async (
-  productId: string,
-  setUser: Dispatch<SetStateAction<IUser | null>>,
-  setIsLike: Dispatch<SetStateAction<boolean>>,
-  setCart?: Dispatch<SetStateAction<ICart>>,
-) => {
-  try {
-    const { data } = await AxiosClient.post(`/carts/${productId}`);
+// 00000000000
+// export const handleToogleCart = async (
+//   productId: string,
+//   setUser: Dispatch<SetStateAction<IUser | null>>,
+//   setIsLike: Dispatch<SetStateAction<boolean>>,
+//   setCart?: Dispatch<SetStateAction<ICart>>,
+// ) => {
+//   try {
+//     const { data } = await AxiosClient.post(`/carts/${productId}`);
 
-    if (setCart) {
-      setCart((pre) => {
-        if (!pre?.carts) return pre;
+//     if (setCart) {
+//       setCart((pre) => {
+//         if (!pre?.carts) return pre;
 
-        return {
-          ...pre,
-          carts: pre.carts?.filter((i) => i.product.id !== productId),
-        };
-      });
-    }
+//         return {
+//           ...pre,
+//           carts: pre.carts?.filter((i) => i.product.id !== productId),
+//         };
+//       });
+//     }
 
-    setIsLike(data.data);
-    setUser((pre) => {
-      if (!pre) return pre;
+//     setIsLike(data.data);
+//     setUser((pre) => {
+//       if (!pre) return pre;
 
-      return {
-        ...pre,
-        cartCounts: data.data ? pre.cartCounts + 1 : pre.cartCounts - 1,
-      };
-    });
-    toast.success(data.message);
-  } catch {
-    toast.error("Failed to delete product");
-  }
-};
-export const handle_LogIn_And_SignUp = async (
-  form: IForm,
-  router: AppRouterInstance,
-  setDisable: React.Dispatch<SetStateAction<boolean>>,
-  setUser: React.Dispatch<SetStateAction<IUser | null>>,
-  title: string,
-) => {
-  try {
-    setDisable(true);
-    const { data } = await AxiosClient.post(
-      `auth/${title.replace(" ", "").toLowerCase()}`,
-      form,
-    );
+//       return {
+//         ...pre,
+//         cartCounts: data.data ? pre.cartCounts + 1 : pre.cartCounts - 1,
+//       };
+//     });
+//     toast.success(data.message);
+//   } catch {
+//     toast.error("Failed to delete product");
+//   }
+// };
 
-    setUser(data?.data || null);
-    router.push("/");
-    toast.success("Sign up Succesfully");
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      toast.error(
-        error.response?.data?.message || `${title} Failed, Please try again.`,
-      );
-    } else {
-      toast.error(`${title} Failed, Please try again.`);
-    }
-  } finally {
-    setDisable(false);
-  }
-};
+// 00000000000
+// export const handle_LogIn_And_SignUp = async (
+//   form: IForm,
+//   router: AppRouterInstance,
+//   setDisable: React.Dispatch<SetStateAction<boolean>>,
+//   setUser: React.Dispatch<SetStateAction<IUser | null>>,
+//   title: string,
+// ) => {
+//   try {
+//     setDisable(true);
+//     const { data } = await AxiosClient.post(
+//       `auth/${title.replace(" ", "").toLowerCase()}`,
+//       form,
+//     );
+
+//     setUser(data?.data || null);
+//     router.push("/");
+//     toast.success("Sign up Succesfully");
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) {
+//       toast.error(
+//         error.response?.data?.message || `${title} Failed, Please try again.`,
+//       );
+//     } else {
+//       toast.error(`${title} Failed, Please try again.`);
+//     }
+//   } finally {
+//     setDisable(false);
+//   }
+// };
