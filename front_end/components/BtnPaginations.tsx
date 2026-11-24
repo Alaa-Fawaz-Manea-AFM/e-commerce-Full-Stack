@@ -111,7 +111,6 @@ const BtnPaginations = ({
             <Link
               key={item}
               href={createPageLink(Number(item))}
-              // href={page === item ? "#" : createPageLink(Number(item))}
               className={`text-center px-2 py-0.5 text-sm font-medium duration-200 rounded-md ${
                 item === currentPage
                   ? "text-white font-bold bg-custom-green scale-105"

@@ -3,7 +3,6 @@ import { ICategory } from "@/types";
 import CategoryForm from "./CategoryForm";
 import { MdModeEdit } from "react-icons/md";
 import { useState } from "react";
-import AxiosClient from "@/lib/axios-client";
 import { toast } from "react-toastify";
 import BtnEditCategory from "./BtnEditCategory";
 import { DeleteCategoryAction } from "@/actions/category";
@@ -18,18 +17,10 @@ const CompCreateAndUpdateCategory = ({
   const [formTitle, setFormTitle] = useState<"Add" | "Update">("Add");
 
   const handleDelete = async (id: string) => {
-    // try {
     const data = await DeleteCategoryAction(id);
-    if (!data.success) {
-      toast.error(data.message);
-      return;
-    }
-    // await AxiosClient.delete(`categories/${id}`);
+    if (!data.success) return toast.error(data.message);
     setCategories(categories.filter((c) => c.id !== id));
     toast.success("Deleted successfully");
-    // } catch {
-    //   toast.error("Delete failed, reverted changes");
-    // }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

@@ -58,11 +58,6 @@ const Filter = () => {
     params.delete("search");
     router.push(`${pathname}?${params.toString()}`);
   };
-
-  console.log("====================================");
-  console.log(isValidValue);
-  console.log("====================================");
-
   const resetAllFilters = () => {
     if (isValidValue) return;
     setSearch("");

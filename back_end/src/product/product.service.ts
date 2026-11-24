@@ -119,18 +119,6 @@ export class ProductService {
       }),
       this.prisma.product.count({ where }),
     ]);
-    console.log('====================================');
-    console.log(products);
-    console.log(totalPages);
-    console.log('====================================');
-
-    // return sendResponsive(
-    //   {
-    //     meta: {},
-    //     products: [],
-    //   },
-    //   'products retrieved successfully',
-    // );
     return sendResponsive(
       {
         meta: {
@@ -170,8 +158,6 @@ export class ProductService {
         },
       },
     });
-    console.log(newProduct);
-
     return sendResponsive(newProduct, 'product created successfully');
   }
 

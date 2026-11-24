@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
-import { IoMdClose } from "react-icons/io"; // 🎯 أيقونة الـ X الجديدة
+import { IoMdClose } from "react-icons/io";
 
 const ComSearchAdmin = () => {
   const router = useRouter();

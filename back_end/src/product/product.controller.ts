@@ -44,9 +44,6 @@ export class ProductController {
   @RolesDecorator(ADMIN)
   @Post()
   createProduct(@Body() createProductDto: CreateProductDto, @Req() req: any) {
-    console.log('====================================');
-    console.log(req);
-    console.log('====================================');
     return this.productService.createProduct(createProductDto, req.user.userId);
   }
 

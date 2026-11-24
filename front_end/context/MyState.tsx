@@ -1,7 +1,6 @@
 "use client";
 import { getUserDataAction } from "@/actions/auth";
 import { ICategory, IUser } from "@/types";
-// import { getUserData } from "@/constant/api";
 import {
   createContext,
   Dispatch,
@@ -42,10 +41,6 @@ const MyState = ({ children }: { children: React.ReactNode }) => {
       const data = await getUserDataAction();
       if (data.success) return setUser(data.data);
       return setUser(null);
-      // try {
-      // } catch {
-      //   setUser(null);
-      // }
     };
 
     fetchUser();

@@ -30,7 +30,6 @@ const AdminProduct = ({ page, search }: ISearchParams) => {
           ? `admin-dashboard/products?search=${search}&page=${page}`
           : `admin-dashboard/products?page=${page}`;
 
-        // const { data } = await AxiosClient.get(apiUrl);
         const data = await AdminDashboardProductsAction(apiUrl);
         if (!data.success) return;
 

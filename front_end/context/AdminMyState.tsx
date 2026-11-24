@@ -3,8 +3,6 @@ import {
   IAdminDashboard,
   IAdminDashboardCounts,
   ICategory,
-  IProduct,
-  IUsers,
   IUsersAndMeta,
 } from "@/types";
 import {
@@ -43,11 +41,6 @@ const AdminMyState = ({ children }: { children: React.ReactNode }) => {
   const [AdminCounts, setAdminCounts] = useState<IAdminDashboardCounts | null>(
     null,
   );
-  //   {
-  //   orderCounts: 0,
-  //   userCounts: 0,
-  //   productCounts: 0,
-  // }
   const [users, setUsers] = useState<IUsersAndMeta>({
     users: [],
     meta: {

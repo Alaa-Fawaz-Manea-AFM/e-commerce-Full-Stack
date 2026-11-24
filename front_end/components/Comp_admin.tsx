@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useUserContextAdmin } from "@/context/AdminMyState";
 import { useEffect } from "react";
 import { AdminDashboardCountsAction } from "@/actions/admin";
-// import AxiosClient from "@/lib/axios-client";
 
 const Comp_admin = ({ page, search }: ISearchParams) => {
   const { AdminCounts, setAdminCounts } = useUserContextAdmin();
@@ -18,7 +17,6 @@ const Comp_admin = ({ page, search }: ISearchParams) => {
       if (AdminCounts !== null) return;
       const data = await AdminDashboardCountsAction();
       if (!data.success) return;
-      // const { data } = await AxiosClient.get("admin-dashboard");
       setAdminCounts(data?.data);
     };
 
@@ -74,7 +72,7 @@ const Comp_admin = ({ page, search }: ISearchParams) => {
           </section>
         </div>
       </div>
-      <div className="container max-w-[1400px] mx-auto mt-10">
+      <div className="container max-w-350 mx-auto mt-10">
         <Tabs defaultIndex={0}>
           <TabList className="flex items-center justify-center flex-wrap md:space-x-8 text-center gap-4 mb-10">
             {adminTab?.map((tab, index) => (

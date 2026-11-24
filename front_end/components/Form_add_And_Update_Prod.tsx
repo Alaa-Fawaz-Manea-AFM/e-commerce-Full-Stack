@@ -1,6 +1,5 @@
 "use client";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-// import { updateProduct } from "@/constant/api";
 import { Loader_icon, file_upload } from "@/public/assets";
 import { adminAddData } from "@/constant/Constant";
 import { MdDeleteForever } from "react-icons/md";
@@ -11,7 +10,7 @@ import Image from "next/image";
 import { useUserContextAdmin } from "@/context/AdminMyState";
 import AxiosClient from "@/lib/axios-client";
 import axios from "axios";
-import { addProductAction, updateProductAction } from "@/actions/product";
+import { addProductAction } from "@/actions/product";
 import { updateProduct } from "@/constant/api";
 
 const obj = {
@@ -80,25 +79,7 @@ const Form_add_And_Update_Prod = ({
         setDisableBtn,
         setProducts,
       );
-      // return await updateProduct(
-      //   router,
-      //   images,
-      //   productObj,
-      //   setDisableBtn,
-      //   setProducts,
-      // );
     }
-
-    // export const addProduct = async (
-    //   router: AppRouterInstance,
-    //   images: File[],
-    //   productObj: IPartialProduct,
-    //   setDisableBtn: React.Dispatch<SetStateAction<boolean>>,
-    //   setProducts: React.Dispatch<SetStateAction<IAdminDashboard>>,
-    //   setAdminCounts: React.Dispatch<
-    //     SetStateAction<IAdminDashboardCounts | null>
-    //   >,
-    // ) => {
     if (
       !productObj.title ||
       !productObj.price ||
@@ -109,11 +90,7 @@ const Form_add_And_Update_Prod = ({
     ) {
       return toast.error("Please fill all fields");
     }
-
-    // try {
     setDisableBtn(true);
-
-    // Upload images from Client
     const imgFormData = new FormData();
     imgFormData.append("folderName", "products");
 
@@ -128,14 +105,6 @@ const Form_add_And_Update_Prod = ({
     newImages.forEach((file) => {
       imgFormData.append("file", file);
     });
-
-    // if (images[0]) {
-    //   imgFormData.append("coverFileName", images[0].name);
-    // }
-
-    // images.forEach((file) => {
-    //   imgFormData.append("file", file);
-    // });
 
     const uploadRes = await axios.post("/api/fileupload", imgFormData, {
       headers: {
@@ -163,15 +132,7 @@ const Form_add_And_Update_Prod = ({
       imageCover,
       images: finalImages,
     };
-
-    console.log("====================================");
-    console.log(finalProductObj);
-    console.log("====================================");
-
-    // Add product through Server Action
     const result = await addProductAction(finalProductObj);
-    console.log(result);
-
     if (!result.success) {
       toast.error(result.message);
       setDisableBtn(false);
@@ -196,29 +157,6 @@ const Form_add_And_Update_Prod = ({
     router.push("/admin");
     setDisableBtn(false);
   };
-  // } catch (error) {
-  //   if (axios.isAxiosError(error)) {
-  //     toast.error(
-  //       error.response?.data?.message || "Oops, Please try again",
-  //     );
-  //   } else {
-  //     toast.error(
-  //       error instanceof Error ? error.message : "Oops, Please try again",
-  //     );
-  //   }
-  //   } finally {
-  //     setDisableBtn(false);
-  //   }
-  // };
-  // return await addProduct(
-  //   router,
-  //   images as File[],
-  //   productObj,
-  //   setDisableBtn,
-  //   setProducts,
-  //   setAdminCounts,
-  // );
-  // };
 
   useEffect(() => {
     const fetchUser = async () => {

@@ -45,23 +45,6 @@ export const logOutAction = async () => {
     };
   }
 };
-// export const logInAction = async (form: IForm) => {
-//   try {
-//     const response = await AxiosServer("post", "auth/login", undefined, form);
-//     await saveAuthCookies(response);
-
-//     return {
-//       success: true,
-//       data: response.data.data || null,
-//     };
-//   } catch {
-//     return {
-//       success: false,
-//       data: null,
-//       message: "Oops, Sign Up, Please try again..",
-//     };
-//   }
-// };
 
 const saveAuthCookies = async (response: AxiosResponse) => {
   const cookiesStore = await cookies();

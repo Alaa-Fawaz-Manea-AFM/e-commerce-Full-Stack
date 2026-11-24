@@ -32,18 +32,6 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  // const allowedOrigins = [process.env.FRONT_URL, "http://localhost:3000"];
-  // app.enableCors({
-  //   origin: (origin, callback) => {
-  //     if (!origin || allowedOrigins.includes(origin)) {
-  //       callback(null, true);
-  //     } else {
-  //       callback(new Error('Not allowed by CORS'));
-  //     }
-  //   },
-  //   credentials: true,
-  // });
-
   app.enableShutdownHooks();
   await app.listen(process.env.PORT || 3001);
 }

@@ -1,9 +1,8 @@
 "use server";
 
 import { AxiosServer } from "@/lib/axios-server";
-import { IForm, IPartialProduct } from "@/types";
-import axios, { AxiosResponse } from "axios";
-import { cookies } from "next/headers";
+import { IPartialProduct } from "@/types";
+import axios from "axios";
 
 export const addProductAction = async (finalProductObj: IPartialProduct) => {
   try {
@@ -70,6 +69,5 @@ export const handleToogleCartAction = async (productId: string) => {
       data: null,
       message: "Something went wrong",
     };
-    // toast.error("Failed to delete product");
   }
 };

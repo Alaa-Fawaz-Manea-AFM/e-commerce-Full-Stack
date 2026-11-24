@@ -6,20 +6,14 @@ import { Avatar } from "@/public/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
-// import AxiosClient from "@/lib/axios-client";
 import { useRouter } from "next/navigation";
 import { logOutAction } from "@/actions/auth";
 
 const NavLink = () => {
   const { user, setUser } = useUserContext();
   const router = useRouter();
-  console.log("====================================");
-  console.log(user?.role === ROLE_ADMIN);
-  console.log("====================================");
-
   const handleSignOut = async () => {
     try {
-      // await AxiosClient.post("auth/logout");
       const result = await logOutAction();
       if (result.success) {
         setUser(null);

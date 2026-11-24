@@ -1,5 +1,4 @@
 "use client";
-// import { handle_LogIn_And_SignUp } from "@/constant/api";
 import { useUserContext } from "@/context/MyState";
 import { Loader_icon } from "@/public/assets";
 import { ChangeEvent, useState } from "react";
@@ -73,25 +72,7 @@ const Form_log_In_Up = ({ title, InputLog_In_Up }: IForm_log_In_Up) => {
       return;
     }
 
-    // export const handle_LogIn_And_SignUp = async (
-    //   form: IForm,
-    //   router: AppRouterInstance,
-    //   setDisable: React.Dispatch<SetStateAction<boolean>>,
-    //   setUser: React.Dispatch<SetStateAction<IUser | null>>,
-    //   title: string,
-    // ) => {
-    // try {
     setDisable(true);
-    // let data;
-    // if (title === "Log In") {
-    //   data = await logInAction(form);
-    // } else if (title === "Sign Up") {
-    //   data = await signUpAction(form);
-    // }
-    // const { data } = await Axiosserver.post(
-    //   `auth/${title.replace(" ", "").toLowerCase()}`,
-    //   form,
-    // );
 
     const data = await signUp_LogIn_Action(form, title);
     if (!data.success) {
@@ -103,22 +84,6 @@ const Form_log_In_Up = ({ title, InputLog_In_Up }: IForm_log_In_Up) => {
     router.push("/");
     toast.success(title + " Succesfully");
     setDisable(false);
-    // setDisable(false);
-    // } catch (error) {
-    // if (axios.isAxiosError(error)) {
-    //   toast.error(
-    //     error.response?.data?.message ||
-    //       `${title} Failed, Please try again.`,
-    //   );
-    // } else {
-    //   toast.error(`${title} Failed, Please try again.`);
-    // }
-    // } finally {
-    // setDisable(false);
-    // }
-    // };
-
-    // return handle_LogIn_And_SignUp(form, router, setDisable, setUser, title);
   };
 
   return (
