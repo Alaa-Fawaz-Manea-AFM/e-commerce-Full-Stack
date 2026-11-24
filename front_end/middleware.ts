@@ -27,6 +27,9 @@ export async function middleware(request: NextRequest) {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
       const { payload } = await jwtVerify(token, secret);
+      console.log("====================================");
+      console.log(payload);
+      console.log("====================================");
 
       const decoded = payload as unknown as CustomJwtPayload;
 
