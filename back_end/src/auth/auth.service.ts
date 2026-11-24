@@ -52,7 +52,7 @@ export class AuthService {
     return await this.prisma.$transaction(async (prisma) => {
       const hashedPassword = await hash(signUpAuthDto.password, 12);
       const user = await prisma.user.create({
-        data: { ...signUpAuthDto, role: 'USER', password: hashedPassword },
+        data: { ...signUpAuthDto, password: hashedPassword },
         select: {
           id: true,
           name: true,

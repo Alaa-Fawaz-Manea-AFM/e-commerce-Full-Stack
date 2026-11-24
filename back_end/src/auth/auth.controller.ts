@@ -40,9 +40,9 @@ export class AuthController {
 
   @Get('me')
   async getMe(@Req() req) {
-    console.log('====================================');
-    console.log(req);
-    console.log('====================================');
+    // console.log('====================================');
+    // console.log(req);
+    // console.log('====================================');
     return this.authService.getMe(req.user.userId);
   }
 }

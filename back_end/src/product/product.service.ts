@@ -77,12 +77,14 @@ export class ProductService {
       page = 1,
       limit = 2,
     } = getAllProductDto;
-
+    console.log('====================================');
+    console.log(userId);
+    console.log('====================================');
     const skip = (page - 1) * limit;
     const where: Prisma.ProductWhereInput = {
-      ...(categoryId && {
-        categoryId,
-      }),
+      // ...(categoryId && {
+      //   categoryId,
+      // }),
       ...((minPrice || maxPrice) && {
         price: {
           gte: minPrice ? minPrice : 0,
@@ -99,7 +101,7 @@ export class ProductService {
 
     const [products, totalPages] = await Promise.all([
       this.prisma.product.findMany({
-        where,
+        // where,
         take: limit,
         skip,
 
@@ -120,7 +122,18 @@ export class ProductService {
       }),
       this.prisma.product.count({ where }),
     ]);
+    console.log('====================================');
+    console.log(products);
+    console.log(totalPages);
+    console.log('====================================');
 
+    // return sendResponsive(
+    //   {
+    //     meta: {},
+    //     products: [],
+    //   },
+    //   'products retrieved successfully',
+    // );
     return sendResponsive(
       {
         meta: {
@@ -128,13 +141,14 @@ export class ProductService {
           page,
           limit,
         },
-        products: products.map((product) => {
-          const { cart = [], ...reset } = product;
-          return {
-            ...reset,
-            isLiked: cart.length > 0,
-          };
-        }),
+        products:
+          products.map((product) => {
+            const { cart = [], ...reset } = product;
+            return {
+              ...reset,
+              isLiked: cart.length > 0,
+            };
+          }) || [],
       },
       'products retrieved successfully',
     );

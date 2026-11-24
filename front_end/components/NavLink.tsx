@@ -12,6 +12,9 @@ import { useRouter } from "next/navigation";
 const NavLink = () => {
   const { user, setUser } = useUserContext();
   const router = useRouter();
+  console.log("====================================");
+  console.log(user?.role === ROLE_ADMIN);
+  console.log("====================================");
 
   const handleSignOut = async () => {
     try {

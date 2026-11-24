@@ -14,6 +14,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log("ADMIN PAGE MOUNTED");
   return (
     <AdminMyState>
       <div className="mt-24">{children}</div>

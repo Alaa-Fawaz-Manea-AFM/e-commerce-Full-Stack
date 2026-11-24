@@ -24,13 +24,19 @@ const AllProducts = async ({ searchParams }: IProps) => {
 
   const apiurl = `products?page=${page}${search ? `&search=${search}` : ""}${categoryId ? `&categoryId=${categoryId}` : ""}${minPrice || maxPrice ? `&minPrice=${minPrice}&maxPrice=${maxPrice}` : ""}`;
 
+  console.log(apiurl);
   let products: IProductAndMeta;
   try {
+    console.log("data");
     const { data } = await AxiosServer("get", apiurl);
+
     products = data?.data;
   } catch {
-    throw Error;
+    // throw Error;
   }
+  console.log("====================================");
+  console.log(products);
+  console.log("====================================");
 
   return (
     <div className="mt-28">

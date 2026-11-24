@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
       const decoded = payload as unknown as CustomJwtPayload;
 
-      if (decoded.role !== "admin") {
+      if (decoded.role !== process.env.NEXT_PUBLIC_ROLE_ADMIN) {
         return NextResponse.redirect(new URL("/", request.url));
       }
 
