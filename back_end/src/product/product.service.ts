@@ -77,14 +77,11 @@ export class ProductService {
       page = 1,
       limit = 2,
     } = getAllProductDto;
-    console.log('====================================');
-    console.log(userId);
-    console.log('====================================');
     const skip = (page - 1) * limit;
     const where: Prisma.ProductWhereInput = {
-      // ...(categoryId && {
-      //   categoryId,
-      // }),
+      ...(categoryId && {
+        categoryId,
+      }),
       ...((minPrice || maxPrice) && {
         price: {
           gte: minPrice ? minPrice : 0,
@@ -101,7 +98,7 @@ export class ProductService {
 
     const [products, totalPages] = await Promise.all([
       this.prisma.product.findMany({
-        // where,
+        where,
         take: limit,
         skip,
 
@@ -155,10 +152,6 @@ export class ProductService {
   }
 
   async createProduct(dataProductsDto: CreateProductDto, userId: string) {
-    console.log('====================================');
-    console.log(dataProductsDto);
-    console.log(userId);
-    console.log('====================================');
     const newProduct = await this.prisma.product.create({
       data: { ...dataProductsDto, userId },
       select: {

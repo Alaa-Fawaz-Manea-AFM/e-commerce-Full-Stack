@@ -105,7 +105,7 @@ export class CartService {
 
       return sendResponsive(
         isNowLiked,
-        `Product ${isNowLiked ? 'liked' : 'unliked'} successfully`,
+        `Product ${isNowLiked ? 'added' : 'removed'} successfully`,
       );
     });
   }

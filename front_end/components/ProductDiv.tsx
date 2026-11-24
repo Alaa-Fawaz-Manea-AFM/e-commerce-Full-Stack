@@ -39,18 +39,18 @@ const ProductDiv = ({
             {prod.desc}
           </p>
           <div className="flex items-center justify-between sm:py-2">
-            <b>
-              <sup>$</sup>
-              {prod.price}
-            </b>
             {prod?.star ? (
               <div className="flex items-center gap-1">
-                <b>{prod.star}</b>
                 <IoIosStar size={25} className="text-custom-yellow" />
+                <b>{prod.star}</b>
               </div>
             ) : (
               ""
             )}
+            <b>
+              <sup>$</sup>
+              {prod.price}
+            </b>
           </div>
         </div>
         {!noBtnCart && (

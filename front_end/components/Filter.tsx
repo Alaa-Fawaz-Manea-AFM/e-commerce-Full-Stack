@@ -21,12 +21,14 @@ const Filter = () => {
 
   const MAX_PRICE = 10000;
   const [minPrice, setMinPrice] = useState(
-    Number(searchParams.get("minPrice")) || 1,
+    Number(searchParams.get("minPrice")) || 0,
   );
 
   const [maxPrice, setMaxPrice] = useState(
     Number(searchParams.get("maxPrice")) || MAX_PRICE,
   );
+  const isValidValue =
+    !search && !selectedCategory && minPrice === 0 && maxPrice === MAX_PRICE;
 
   const updateFilters = (updates: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -39,6 +41,8 @@ const Filter = () => {
 
   const handleApplyFilters = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isValidValue) return;
 
     updateFilters({
       search: search.trim(),
@@ -55,7 +59,12 @@ const Filter = () => {
     router.push(`${pathname}?${params.toString()}`);
   };
 
+  console.log("====================================");
+  console.log(isValidValue);
+  console.log("====================================");
+
   const resetAllFilters = () => {
+    if (isValidValue) return;
     setSearch("");
     setSelectedCategory("");
     setMinPrice(0);
@@ -85,7 +94,7 @@ const Filter = () => {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Type product name..."
+            placeholder="search for product name..."
             type="text"
             className="w-full outline-none border-none p-2 font-medium bg-transparent text-black dark:text-white"
           />
@@ -175,16 +184,18 @@ const Filter = () => {
 
         <div className="flex items-center justify-end gap-4">
           <button
+            disabled={isValidValue}
             type="button"
             onClick={resetAllFilters}
-            className="text-sm font-bold text-gray-400 hover:text-red-500 transition-colors px-4 py-3 rounded-xl cursor-pointer"
+            className={`${isValidValue ? "cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm font-bold text-gray-400 hover:text-red-500 transition-colors px-4 py-3 rounded-xl cursor-pointer`}
           >
             Reset Filters
           </button>
 
           <button
+            disabled={isValidValue}
             type="submit"
-            className="bg-custom-green hover:bg-custom-green/90 text-white font-bold px-8 py-3 rounded-xl text-sm transition-all shadow-md active:scale-95 cursor-pointer"
+            className={`${isValidValue ? "cursor-not-allowed opacity-50" : "cursor-pointer"} bg-custom-green hover:bg-custom-green/90 text-white font-bold px-8 py-3 rounded-xl text-sm transition-all shadow-md active:scale-95`}
           >
             Apply Search
           </button>

@@ -1,10 +1,93 @@
+// "use client";
+// import { useUserContext } from "@/context/MyState";
+// // import { handleToogleCart } from "@/constant/api";
+// import { toast } from "react-toastify";
+// import { ICart } from "@/types";
+// import { SetStateAction, useState } from "react";
+// import { handleToogleCartAction } from "@/actions/product";
+
+// const BtnAddToCart = ({
+//   productId,
+//   isLiked,
+//   setCart,
+// }: {
+//   productId: string;
+//   isLiked: boolean;
+//   setCart?: React.Dispatch<SetStateAction<ICart>>;
+// }) => {
+//   const { user, setUser } = useUserContext();
+//   const [isCart, setIsCart] = useState<boolean>(isLiked || false);
+//   const [loading, setLoading] = useState(false);
+
+//   const handleToogleCartFun = async () => {
+//     if (!user) return toast.error("Sorry, your must login.");
+//     if (loading) return;
+//     // export const handleToogleCart = async (
+//     //   productId: string,
+//     //   setUser: Dispatch<SetStateAction<IUser | null>>,
+//     //   setIsLike: Dispatch<SetStateAction<boolean>>,
+//     //   setCart?: Dispatch<SetStateAction<ICart>>,
+//     // ) => {
+//     // try {
+//     setLoading(true);
+//     const result = await handleToogleCartAction(productId);
+//     if (!result.success) {
+//       toast.error(result.message);
+//       setLoading(false);
+//       return;
+//     }
+
+//     if (setCart && result.data === false) {
+//       setCart((pre) => {
+//         if (!pre?.carts) return pre;
+
+//         return {
+//           ...pre,
+//           carts: pre.carts?.filter((i) => i.product.id !== productId),
+//         };
+//       });
+//     }
+
+//     setIsCart(result.data);
+//     setUser((pre) => {
+//       if (!pre) return pre;
+
+//       return {
+//         ...pre,
+//         cartCounts: result.data
+//           ? pre.cartCounts + 1
+//           : Math.max(0, pre.cartCounts - 1),
+//       };
+//     });
+//     toast.success(result.message);
+//     setLoading(false);
+//     //   } catch {
+//     //     toast.error("Failed to delete product");
+//     //   }
+//     // };
+//     // handleToogleCart(productId, setUser, setIsLike, setCart);
+//   };
+
+//   return (
+//     <button
+//       onClick={handleToogleCartFun}
+//       className="border-custom-green text-custom-green hover:shadow-custom-green hover:shadow-[inset_0_0_8px_rgb(250,245,255)] transition-all duration-300 ease-in-out font-medium border-b-4 rounded-lg text-xl px-5 py-1.5 text-center mb-2 w-full"
+//     >
+//       {isCart ? "Delete" : "Add"} To Cart
+//     </button>
+//   );
+// };
+
+// export default BtnAddToCart;
+
 "use client";
+
 import { useUserContext } from "@/context/MyState";
-// import { handleToogleCart } from "@/constant/api";
 import { toast } from "react-toastify";
 import { ICart } from "@/types";
 import { SetStateAction, useState } from "react";
 import { handleToogleCartAction } from "@/actions/product";
+import { Plus, Trash2, LoaderCircle } from "lucide-react";
 
 const BtnAddToCart = ({
   productId,
@@ -16,20 +99,20 @@ const BtnAddToCart = ({
   setCart?: React.Dispatch<SetStateAction<ICart>>;
 }) => {
   const { user, setUser } = useUserContext();
-  const [isLike, setIsLike] = useState<boolean>(isLiked || false);
+  const [isCart, setIsCart] = useState<boolean>(isLiked || false);
   const [loading, setLoading] = useState(false);
 
   const handleToogleCartFun = async () => {
-    if (!user) return toast.error("Sorry, your must login.");
+    if (!user) {
+      toast.error("Sorry, you must login.");
+      return;
+    }
+
     if (loading) return;
-    // export const handleToogleCart = async (
-    //   productId: string,
-    //   setUser: Dispatch<SetStateAction<IUser | null>>,
-    //   setIsLike: Dispatch<SetStateAction<boolean>>,
-    //   setCart?: Dispatch<SetStateAction<ICart>>,
-    // ) => {
+
     // try {
     setLoading(true);
+
     const result = await handleToogleCartAction(productId);
 
     if (!result.success) {
@@ -44,12 +127,13 @@ const BtnAddToCart = ({
 
         return {
           ...pre,
-          carts: pre.carts?.filter((i) => i.product.id !== productId),
+          carts: pre.carts.filter((i) => i.product.id !== productId),
         };
       });
     }
 
-    setIsLike(result.data);
+    setIsCart(result.data);
+
     setUser((pre) => {
       if (!pre) return pre;
 
@@ -60,21 +144,51 @@ const BtnAddToCart = ({
           : Math.max(0, pre.cartCounts - 1),
       };
     });
+
     toast.success(result.message);
     setLoading(false);
-    //   } catch {
-    //     toast.error("Failed to delete product");
-    //   }
-    // };
-    // handleToogleCart(productId, setUser, setIsLike, setCart);
+
+    // } catch {
+    //   toast.error("Failed to update cart");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
     <button
       onClick={handleToogleCartFun}
-      className="border-custom-green text-custom-green hover:shadow-custom-green hover:shadow-[inset_0_0_8px_rgb(250,245,255)] transition-all duration-300 ease-in-out font-medium border-b-4 rounded-lg text-xl px-5 py-1.5 text-center mb-2 w-full"
+      disabled={loading}
+      className={`border-custom-green text-custom-green hover:shadow-custom-green hover:shadow-[inset_0_0_8px_rgb(250,245,255)] transition-all duration-300 ease-in-out font-medium border-b-4 rounded-lg text-xl px-5 py-1.5 text-center mb-2 w-full flex items-center justify-center gap-2 disabled:opacity-50 ${loading ? "cursor-not-allowed" : "cursor-pointer"}`}
     >
-      {isLike ? "Delete" : "Add"} To Cart
+      {loading ? (
+        <LoaderCircle size={20} className="animate-spin" />
+      ) : isCart ? (
+        <>
+          <Trash2 size={20} />
+          Delete From Cart
+        </>
+      ) : (
+        <>
+          <Plus size={20} />
+          Add To Cart
+        </>
+      )}
+
+      {/* {loading ? "Loading..." : isCart ? "Delete From Cart" : "Add To Cart"} */}
+      {/* {loading ? (
+        <LoaderCircle size={20} className="animate-spin" />
+      ) : isCart ? (
+        <Trash2 size={20} />
+      ) : (
+        <Plus size={20} />
+      )}
+
+      {loading
+        ? "Loading..."
+        : isCart
+          ? "Delete From Cart"
+          : "Add To Cart"} */}
     </button>
   );
 };

@@ -60,8 +60,8 @@ export const handleToogleCartAction = async (productId: string) => {
     const { data } = await AxiosServer("post", `carts/${productId}`);
 
     return {
-      success: false,
-      data: data,
+      success: true,
+      data: data?.data,
       message: data?.message || "Cart updated successfully",
     };
   } catch {

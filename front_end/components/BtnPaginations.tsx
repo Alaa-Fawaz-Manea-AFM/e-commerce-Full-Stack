@@ -55,6 +55,7 @@ const BtnPaginations = ({
   const paginationRange = getPaginationRange();
 
   const createPageLink = (pageNumber: number) => {
+    if (pageNumber === currentPage) return "";
     const params = new URLSearchParams();
 
     params.set("page", String(pageNumber));
@@ -109,7 +110,8 @@ const BtnPaginations = ({
           return (
             <Link
               key={item}
-              href={createPageLink(+item)}
+              href={createPageLink(Number(item))}
+              // href={page === item ? "#" : createPageLink(Number(item))}
               className={`text-center px-2 py-0.5 text-sm font-medium duration-200 rounded-md ${
                 item === currentPage
                   ? "text-white font-bold bg-custom-green scale-105"
