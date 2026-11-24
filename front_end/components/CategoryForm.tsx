@@ -37,10 +37,7 @@ const CategoryForm = ({
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!categoryName.trim()) {
-      toast.error("Category name is required");
-      return;
-    }
+    if (!categoryName.trim()) return toast.error("Category name is required");
 
     setDisableBtn(true);
     setLoading(true);
@@ -57,7 +54,7 @@ const CategoryForm = ({
       toast.success("Add Category successfully");
       setCategoryName("");
     } else {
-      if (!category) return;
+      if (!category) return toast.error("Category not found");
 
       const data = await EditCategoryAction(category.id, categoryName);
       if (!data.success) {
