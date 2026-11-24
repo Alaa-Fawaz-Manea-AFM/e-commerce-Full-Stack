@@ -7,7 +7,8 @@ import { ISearchParams } from "@/types";
 import Link from "next/link";
 import { useUserContextAdmin } from "@/context/AdminMyState";
 import { useEffect } from "react";
-import AxiosClient from "@/lib/axios-client";
+import { AdminDashboardCountsAction } from "@/actions/admin";
+// import AxiosClient from "@/lib/axios-client";
 
 const Comp_admin = ({ page, search }: ISearchParams) => {
   const { AdminCounts, setAdminCounts } = useUserContextAdmin();
@@ -15,8 +16,9 @@ const Comp_admin = ({ page, search }: ISearchParams) => {
   useEffect(() => {
     const fetchAdminDashboardCounts = async () => {
       if (AdminCounts !== null) return;
-
-      const { data } = await AxiosClient.get("admin-dashboard");
+      const data = await AdminDashboardCountsAction();
+      if (!data.success) return;
+      // const { data } = await AxiosClient.get("admin-dashboard");
       setAdminCounts(data?.data);
     };
 

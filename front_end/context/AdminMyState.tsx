@@ -40,9 +40,11 @@ export const useUserContextAdmin = () => {
 
 const AdminMyState = ({ children }: { children: React.ReactNode }) => {
   const [category, setCategory] = useState<ICategory[]>([]);
-  const [AdminCounts, setAdminCounts] = useState<IAdminDashboardCounts | null>(
-    null,
-  );
+  const [AdminCounts, setAdminCounts] = useState<IAdminDashboardCounts | null>({
+    orderCounts: 0,
+    userCounts: 0,
+    productCounts: 0,
+  });
   const [users, setUsers] = useState<IUsersAndMeta>({
     users: [],
     meta: {
