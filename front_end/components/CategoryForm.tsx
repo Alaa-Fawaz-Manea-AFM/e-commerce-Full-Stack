@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import AxiosClient from "@/lib/axios-client";
 import { ICategory } from "@/types";
+import { AddCategoryAction, EditCategoryAction } from "@/actions/category";
 
 interface ICategoryFormProps {
   title: "Add" | "Update";
@@ -41,36 +42,77 @@ const CategoryForm = ({
       return;
     }
 
-    try {
-      setDisableBtn(true);
-      setLoading(true);
-      if (title === "Add") {
-        const { data } = await AxiosClient.post("categories", {
-          category: categoryName,
-        });
-        setCategories?.((prev) => [data?.data, ...prev]);
-        toast.success("Added!");
-        setCategoryName("");
-      } else {
-        if (!category) return;
-
-        await AxiosClient.patch(`categories/${category.id}`, {
-          category: categoryName,
-        });
-        setCategories?.((prev) =>
-          prev.map((c) =>
-            c.id === category.id ? { ...c, category: categoryName } : c,
-          ),
-        );
-        toast.success("Updated!");
-        resetForm?.();
+    setDisableBtn(true);
+    setLoading(true);
+    if (title === "Add") {
+      const { data } = await AddCategoryAction(categoryName);
+      if (!data.success) {
+        toast.error(data.message);
+        //  setDisableBtn(false);
+        //  setLoading(false);
+        return;
       }
-    } catch {
-      toast.error("Operation failed");
-    } finally {
-      setDisableBtn(true);
-      setLoading(false);
+
+      setCategories?.((prev) => [data?.data, ...prev]);
+      toast.success("Add Category successfully");
+      setCategoryName("");
+    } else {
+      if (!category) return;
+
+      const data = await EditCategoryAction(category.id, categoryName);
+      if (!data.success) {
+        toast.error(data.message);
+        //  setDisableBtn(false);
+        //  setLoading(false);
+        return;
+      }
+
+      // await AxiosClient.patch(`categories/${category.id}`, {
+      //   category: categoryName,
+      // });
+      setCategories?.((prev) =>
+        prev.map((c) =>
+          c.id === category.id ? { ...c, category: categoryName } : c,
+        ),
+      );
+      toast.success("Updated!");
+      resetForm?.();
     }
+    setDisableBtn(false);
+    setLoading(false);
+
+    // try {
+    // setDisableBtn(true);
+    // setLoading(true);
+    // if (title === "Add") {
+    //   const { data } = await AxiosClient.post("categories", {
+    //     category: categoryName,
+    //   });
+    //   setCategories?.((prev) => [data?.data, ...prev]);
+    //   toast.success("Added!");
+    //   setCategoryName("");
+    // } else {
+    //   if (!category) return;
+
+    //   await AxiosClient.patch(`categories/${category.id}`, {
+    //     category: categoryName,
+    //   });
+    //   setCategories?.((prev) =>
+    //     prev.map((c) =>
+    //       c.id === category.id ? { ...c, category: categoryName } : c,
+    //     ),
+    //   );
+    //   toast.success("Updated!");
+    //   resetForm?.();
+    //     setDisableBtn(true);
+    //     setLoading(false);
+    // }
+    // } catch {
+    //   toast.error("Operation failed");
+    // } finally {
+    //   setDisableBtn(true);
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -129,7 +171,7 @@ const CategoryForm = ({
             unoptimized
           />
         )}
-        {title === "Add" ? "Save Category" : "Update Category"}
+        {title === "Add" ? "Add Category" : "Update Category"}
       </button>
     </form>
   );

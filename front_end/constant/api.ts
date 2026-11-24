@@ -8,6 +8,7 @@ import { SetStateAction } from "react";
 import AxiosClient from "../lib/axios-client";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import axios from "axios";
+import { updateProductAction } from "@/actions/product";
 
 export const ROLE_ADMIN = process.env.NEXT_PUBLIC_ROLE_ADMIN;
 
@@ -139,11 +140,14 @@ export const updateProduct = async (
 
   try {
     setDisableBtn(true);
-    const oldUrls = images.filter((img) => typeof img === "string") as string[];
-    const convertedOldImages = oldUrls.map((url) => url);
 
-    const newFiles = images.filter((img) => img instanceof File) as File[];
-    let finalImages = [...convertedOldImages];
+    const oldUrls = images.filter(
+      (img): img is string => typeof img === "string",
+    );
+
+    const newFiles = images.filter((img): img is File => img instanceof File);
+
+    let finalImages = [...oldUrls];
 
     if (newFiles.length > 0) {
       const imgFormData = new FormData();
@@ -154,12 +158,10 @@ export const updateProduct = async (
         imgFormData.append("file", file);
       });
 
-      const uploadRes = await axios.post("/api/fileupload", imgFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const uploadRes = await axios.post("/api/fileupload", imgFormData);
 
       if (uploadRes.status === 200 && uploadRes.data?.images) {
-        const uploadedNewImages = uploadRes.data.images.map(
+        const uploadedNewImages: string[] = uploadRes.data.images.map(
           (img: { url: string }) => img.url,
         );
 
@@ -169,17 +171,29 @@ export const updateProduct = async (
       }
     }
 
-    const imageCover = finalImages.splice(0, 1)?.[0];
+    const imageCover = finalImages.shift();
+
+    if (!imageCover) {
+      throw new Error("Product cover image is required");
+    }
+
     const finalProductObj = {
       ...productObj,
-      categoryId: productObj.category?.id,
+      categoryId: productObj.category.id,
       imageCover,
       images: finalImages,
     };
 
-    await AxiosClient.patch(`products/${productObj.id}`, finalProductObj);
-    setProducts((pre: IAdminDashboard) => {
+    const result = await updateProductAction(productObj.id!, finalProductObj);
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    setProducts((pre) => {
       if (!pre) return pre;
+
       return {
         ...pre,
         products: pre.products?.map((prod) =>
@@ -188,18 +202,102 @@ export const updateProduct = async (
       };
     });
 
-    toast.success("Product Updated successfully");
+    toast.success(result.message);
     router.push("/admin");
   } catch (err) {
     if (axios.isAxiosError(err)) {
       toast.error(err.response?.data?.message || "Oops, Please try again");
     } else {
-      toast.error("Oops, Please try again");
+      toast.error(
+        err instanceof Error ? err.message : "Oops, Please try again",
+      );
     }
   } finally {
     setDisableBtn(false);
   }
 };
+
+// export const updateProduct = async (
+//   router: AppRouterInstance,
+//   images: (string | File)[],
+//   productObj: IPartialProduct,
+//   setDisableBtn: React.Dispatch<SetStateAction<boolean>>,
+//   setProducts: React.Dispatch<SetStateAction<IAdminDashboard>>,
+// ) => {
+//   if (
+//     !productObj.title ||
+//     !productObj.price ||
+//     productObj.star === undefined ||
+//     images.length === 0 ||
+//     !productObj.category?.id ||
+//     !productObj.desc
+//   ) {
+//     return toast.error("Please fill all fields");
+//   }
+
+//   try {
+//     setDisableBtn(true);
+//     const oldUrls = images.filter((img) => typeof img === "string") as string[];
+//     const convertedOldImages = oldUrls.map((url) => url);
+
+//     const newFiles = images.filter((img) => img instanceof File) as File[];
+//     let finalImages = [...convertedOldImages];
+
+//     if (newFiles.length > 0) {
+//       const imgFormData = new FormData();
+//       imgFormData.append("folderName", "products");
+//       imgFormData.append("coverFileName", newFiles[0].name);
+
+//       newFiles.forEach((file) => {
+//         imgFormData.append("file", file);
+//       });
+
+//       const uploadRes = await axios.post("/api/fileupload", imgFormData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+
+//       if (uploadRes.status === 200 && uploadRes.data?.images) {
+//         const uploadedNewImages = uploadRes.data.images.map(
+//           (img: { url: string }) => img.url,
+//         );
+
+//         finalImages = [...finalImages, ...uploadedNewImages];
+//       } else {
+//         throw new Error("Failed to upload new images");
+//       }
+//     }
+
+//     const imageCover = finalImages.splice(0, 1)?.[0];
+//     const finalProductObj = {
+//       ...productObj,
+//       categoryId: productObj.category?.id,
+//       imageCover,
+//       images: finalImages,
+//     };
+
+//     await AxiosClient.patch(`products/${productObj.id}`, finalProductObj);
+//     setProducts((pre: IAdminDashboard) => {
+//       if (!pre) return pre;
+//       return {
+//         ...pre,
+//         products: pre.products?.map((prod) =>
+//           prod.id === productObj.id ? { ...prod, ...finalProductObj } : prod,
+//         ),
+//       };
+//     });
+
+//     toast.success("Product Updated successfully");
+//     router.push("/admin");
+//   } catch (err) {
+//     if (axios.isAxiosError(err)) {
+//       toast.error(err.response?.data?.message || "Oops, Please try again");
+//     } else {
+//       toast.error("Oops, Please try again");
+//     }
+//   } finally {
+//     setDisableBtn(false);
+//   }
+// };
 
 // 00000000000
 // export const handleToogleCart = async (
