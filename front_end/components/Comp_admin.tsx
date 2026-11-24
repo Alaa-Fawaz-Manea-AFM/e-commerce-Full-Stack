@@ -25,7 +25,11 @@ const Comp_admin = ({ page, search }: ISearchParams) => {
     fetchAdminDashboardCounts();
   }, []);
 
-  const { orderCounts, userCounts, productCounts } = AdminCounts || {};
+  const {
+    orderCounts = 0,
+    userCounts = 0,
+    productCounts = 0,
+  } = AdminCounts || {};
 
   return (
     <div className="overflow-y-auto body-font">

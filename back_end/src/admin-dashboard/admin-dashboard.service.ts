@@ -8,6 +8,21 @@ import { Prisma, Role } from '@prisma/client';
 export class AdminDashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findAllProductAndOrdersAndUsersCounts() {
+    const [productCounts, userCounts] = await Promise.all([
+      this.prisma.product.count(),
+      this.prisma.user.count(),
+    ]);
+    return sendResponsive(
+      {
+        productCounts,
+        orderCounts: 0,
+        userCounts,
+      },
+      'Admin dashboard data fetched successfully',
+    );
+  }
+
   async getAllUsers(page = 1, limit = 10) {
     const skip = (page - 1) * limit;
 
@@ -123,21 +138,6 @@ export class AdminDashboardService {
         products,
       },
       'products retrieved successfully',
-    );
-  }
-
-  async findAllProductAndOrdersAndUsersCounts() {
-    const [productCounts, userCounts] = await Promise.all([
-      this.prisma.product.count(),
-      this.prisma.user.count(),
-    ]);
-    return sendResponsive(
-      {
-        productCounts,
-        orderCounts: 0,
-        userCounts,
-      },
-      'Admin dashboard data fetched successfully',
     );
   }
 }
