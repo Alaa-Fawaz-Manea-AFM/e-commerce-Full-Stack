@@ -32,11 +32,8 @@ const AllProducts = async ({ searchParams }: IProps) => {
 
     products = data?.data;
   } catch {
-    // throw Error;
+    throw new Error("Failed to fetch products");
   }
-  console.log("====================================");
-  console.log(products);
-  console.log("====================================");
 
   return (
     <div className="mt-28">
