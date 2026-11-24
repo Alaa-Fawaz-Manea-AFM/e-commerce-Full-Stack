@@ -45,11 +45,11 @@ const CategoryForm = ({
     setDisableBtn(true);
     setLoading(true);
     if (title === "Add") {
-      const { data } = await AddCategoryAction(categoryName);
+      const data = await AddCategoryAction(categoryName);
       if (!data.success) {
         toast.error(data.message);
-        //  setDisableBtn(false);
-        //  setLoading(false);
+        setDisableBtn(false);
+        setLoading(false);
         return;
       }
 
@@ -62,8 +62,8 @@ const CategoryForm = ({
       const data = await EditCategoryAction(category.id, categoryName);
       if (!data.success) {
         toast.error(data.message);
-        //  setDisableBtn(false);
-        //  setLoading(false);
+        setDisableBtn(false);
+        setLoading(false);
         return;
       }
 
