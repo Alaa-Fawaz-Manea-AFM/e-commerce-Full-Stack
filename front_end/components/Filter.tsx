@@ -187,7 +187,7 @@ const Filter = () => {
             disabled={isValidValue}
             type="button"
             onClick={resetAllFilters}
-            className={`${isValidValue ? "cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm font-bold text-gray-400 hover:text-red-500 transition-colors px-4 py-3 rounded-xl cursor-pointer`}
+            className={`${isValidValue ? "cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm font-bold text-gray-400 hover:text-red-500 transition-colors px-4 py-3 rounded-xl`}
           >
             Reset Filters
           </button>
