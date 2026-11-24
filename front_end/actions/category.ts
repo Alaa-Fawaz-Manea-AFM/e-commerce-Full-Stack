@@ -59,7 +59,7 @@ export const DeleteCategoryAction = async (id: string) => {
     return {
       success: false,
       data: null,
-      message: "Oops, Please try again",
+      message: "Delete failed, reverted changes",
     };
   }
 };
