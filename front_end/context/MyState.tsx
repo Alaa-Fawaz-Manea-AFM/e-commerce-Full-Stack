@@ -1,6 +1,7 @@
 "use client";
+import { getUserData } from "@/actions/auth";
 import { ICategory, IUser } from "@/types";
-import { getUserData } from "@/constant/api";
+// import { getUserData } from "@/constant/api";
 import {
   createContext,
   Dispatch,
@@ -38,12 +39,13 @@ const MyState = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const data = await getUserData();
-        setUser(data);
-      } catch {
-        setUser(null);
-      }
+      const data = await getUserData();
+      if (data.success) return setUser(data.data);
+      setUser(null);
+      // try {
+      // } catch {
+      //   setUser(null);
+      // }
     };
 
     fetchUser();

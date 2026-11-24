@@ -32,6 +32,9 @@ export const getUserId = async () => {
   const cookieStore = await cookies();
 
   const token = cookieStore.get("accessToken")?.value;
+  console.log("====================================");
+  console.log(token);
+  console.log("====================================");
 
   if (!token) return true;
 
