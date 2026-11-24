@@ -8,6 +8,11 @@ import ParamsDto from '../validators/params.dto';
 export class AdminDashboardController {
   constructor(private readonly adminDashboardService: AdminDashboardService) {}
 
+  @Get()
+  findAllProductAndOrdersAndUsersCounts() {
+    return this.adminDashboardService.findAllProductAndOrdersAndUsersCounts();
+  }
+
   @Get('users')
   getAllUsers(@Query() queryPageDto: QueryPageDto) {
     return this.adminDashboardService.getAllUsers(
@@ -24,10 +29,5 @@ export class AdminDashboardController {
   @Get(':productId')
   getproduct(@Param() ParamsDto: ParamsDto) {
     return this.adminDashboardService.getProduct(ParamsDto.productId);
-  }
-
-  @Get()
-  findAllProductAndOrdersAndUsersCounts() {
-    return this.adminDashboardService.findAllProductAndOrdersAndUsersCounts();
   }
 }

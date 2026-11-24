@@ -4,7 +4,7 @@ import { AxiosServer } from "@/lib/axios-server";
 export const AdminDashboardCountsAction = async () => {
   try {
     const response = await AxiosServer(
-      "post",
+      "get",
       "admin-dashboard",
       undefined,
       null,
