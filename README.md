@@ -1,4 +1,4 @@
-# 🛒 NEXUS – Full-Stack E-Commerce Platform
+# 🛒 – Full-Stack E-Commerce Platform
 
 A modern full-stack E-Commerce platform built with Next.js and NestJS, featuring a responsive storefront, advanced product management, secure authentication, order processing, and comprehensive admin and vendor dashboards.
 
