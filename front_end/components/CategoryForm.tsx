@@ -4,20 +4,20 @@ import { Loader_icon } from "@/public/assets";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { ICategory } from "@/types";
-import { AddCategoryAction, EditCategoryAction } from "@/actions/category";
+import { DataActions } from "@/actions/dataActions";
 
 interface ICategoryFormProps {
   title: "Add" | "Update";
   category?: ICategory | null;
   setCategories?: React.Dispatch<React.SetStateAction<ICategory[]>>;
-  resetForm?: () => void;
+  setFormTitle?: React.Dispatch<React.SetStateAction<"Add" | "Update">>;
 }
 
 const CategoryForm = ({
   title,
   category,
   setCategories,
-  resetForm,
+  setFormTitle,
 }: ICategoryFormProps) => {
   const [categoryName, setCategoryName] = useState("");
   const [disableBtn, setDisableBtn] = useState(
@@ -30,18 +30,19 @@ const CategoryForm = ({
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setCategoryName(category.category);
     } else {
-      setCategoryName("");
+      setCategoryName(categoryName);
     }
   }, [category, title]);
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!categoryName.trim()) return toast.error("Category name is required");
-
     setDisableBtn(true);
     setLoading(true);
     if (title === "Add") {
-      const data = await AddCategoryAction(categoryName);
+      const data = await DataActions("post", "categories", undefined, {
+        category: categoryName,
+      });
       if (!data.success) {
         toast.error(data.message);
         setDisableBtn(false);
@@ -55,7 +56,14 @@ const CategoryForm = ({
     } else {
       if (!category) return toast.error("Category not found");
 
-      const data = await EditCategoryAction(category.id, categoryName);
+      const data = await DataActions(
+        "patch",
+        `categories/${category.id}`,
+        undefined,
+        {
+          category: categoryName,
+        },
+      );
       if (!data.success) {
         toast.error(data.message);
         setDisableBtn(false);
@@ -67,8 +75,9 @@ const CategoryForm = ({
           c.id === category.id ? { ...c, category: categoryName } : c,
         ),
       );
-      toast.success("Updated!");
-      resetForm?.();
+      toast.success("Update Category Successfully");
+      setFormTitle?.("Add");
+      setCategoryName("");
     }
     setDisableBtn(false);
     setLoading(false);
@@ -83,7 +92,10 @@ const CategoryForm = ({
         {title === "Update" && (
           <button
             type="button"
-            onClick={resetForm}
+            onClick={() => {
+              setCategoryName("");
+              setFormTitle?.("Add");
+            }}
             className="text-xs text-red-400 hover:underline cursor-pointer"
           >
             Cancel Edit

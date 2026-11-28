@@ -5,7 +5,7 @@ import { MdModeEdit } from "react-icons/md";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import BtnEditCategory from "./BtnEditCategory";
-import { DeleteCategoryAction } from "@/actions/category";
+import { DataActions } from "@/actions/dataActions";
 
 const CompCreateAndUpdateCategory = ({
   categories,
@@ -17,7 +17,12 @@ const CompCreateAndUpdateCategory = ({
   const [formTitle, setFormTitle] = useState<"Add" | "Update">("Add");
 
   const handleDelete = async (id: string) => {
-    const data = await DeleteCategoryAction(id);
+    const data = await DataActions(
+      "delete",
+      `categories/${id}`,
+      undefined,
+      null,
+    );
     if (!data.success) return toast.error(data.message);
     setCategories(categories.filter((c) => c.id !== id));
     toast.success("Deleted successfully");
@@ -29,7 +34,7 @@ const CompCreateAndUpdateCategory = ({
           title={formTitle}
           category={category}
           setCategories={setCategories}
-          resetForm={() => setFormTitle("Add")}
+          setFormTitle={setFormTitle}
         />
       </div>
 

@@ -10,8 +10,8 @@ import Image from "next/image";
 import { useUserContextAdmin } from "@/context/AdminMyState";
 import AxiosClient from "@/lib/axios-client";
 import axios from "axios";
-import { addProductAction } from "@/actions/product";
 import { updateProduct } from "@/constant/api";
+import { DataActions } from "@/actions/dataActions";
 
 const obj = {
   title: "",
@@ -132,7 +132,12 @@ const Form_add_And_Update_Prod = ({
       imageCover,
       images: finalImages,
     };
-    const result = await addProductAction(finalProductObj);
+    const result = await DataActions(
+      "post",
+      "products",
+      undefined,
+      finalProductObj,
+    );
     if (!result.success) {
       toast.error(result.message);
       setDisableBtn(false);

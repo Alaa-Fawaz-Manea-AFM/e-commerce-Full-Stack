@@ -17,7 +17,7 @@ import { formatDate } from "@/constant/api";
 import BtnEditAndDeleteProduct from "./BtnEditAndDeleteProduct";
 import { toast } from "react-toastify";
 import BtnPaginations from "./BtnPaginations";
-import { AdminDashboardProductsAction } from "@/actions/admin";
+import { DataActions } from "@/actions/dataActions";
 
 const AdminProduct = ({ page, search }: ISearchParams) => {
   const { products, setProducts, setAdminCounts } = useUserContextAdmin();
@@ -30,7 +30,7 @@ const AdminProduct = ({ page, search }: ISearchParams) => {
           ? `admin-dashboard/products?search=${search}&page=${page}`
           : `admin-dashboard/products?page=${page}`;
 
-        const data = await AdminDashboardProductsAction(apiUrl);
+        const data = await DataActions("get", apiUrl, undefined, null);
         if (!data.success) return;
 
         setProducts(data?.data);

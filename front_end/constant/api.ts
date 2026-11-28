@@ -8,7 +8,7 @@ import { SetStateAction } from "react";
 import AxiosClient from "../lib/axios-client";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import axios from "axios";
-import { updateProductAction } from "@/actions/product";
+import { DataActions } from "@/actions/dataActions";
 
 export const ROLE_ADMIN = process.env.NEXT_PUBLIC_ROLE_ADMIN;
 
@@ -179,16 +179,18 @@ export const updateProduct = async (
       images: finalImages,
     };
 
-    const result = await updateProductAction(productObj.id!, finalProductObj);
-
+    const result = await DataActions(
+      "patch",
+      `products/${productObj.id}`,
+      undefined,
+      finalProductObj,
+    );
     if (!result.success) {
       toast.error(result.message);
       return;
     }
-
     setProducts((pre) => {
       if (!pre) return pre;
-
       return {
         ...pre,
         products: pre.products?.map((prod) =>

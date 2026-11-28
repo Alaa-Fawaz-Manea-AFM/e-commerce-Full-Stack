@@ -28,24 +28,6 @@ export const signUp_LogIn_Action = async (
   }
 };
 
-export const logOutAction = async () => {
-  try {
-    await AxiosServer("post", "auth/logout");
-    const cookieStore = await cookies();
-    cookieStore.delete("accessToken");
-
-    return {
-      success: true,
-      message: "Logged out successfully",
-    };
-  } catch {
-    return {
-      success: false,
-      message: "Logout failed, please try again.",
-    };
-  }
-};
-
 const saveAuthCookies = async (response: AxiosResponse) => {
   const cookiesStore = await cookies();
   response.headers["set-cookie"]?.forEach((cookie: string) => {
@@ -63,18 +45,20 @@ const saveAuthCookies = async (response: AxiosResponse) => {
   });
 };
 
-export const getUserDataAction = async () => {
+export const logOutAction = async () => {
   try {
-    const { data } = await AxiosServer("get", "auth/me");
+    await AxiosServer("post", "auth/logout");
+    const cookieStore = await cookies();
+    cookieStore.delete("accessToken");
 
     return {
       success: true,
-      data: data?.data || null,
+      message: "Logged out successfully",
     };
   } catch {
     return {
-      data: null,
       success: false,
+      message: "Logout failed, please try again.",
     };
   }
 };

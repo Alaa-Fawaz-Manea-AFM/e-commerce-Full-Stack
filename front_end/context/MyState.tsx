@@ -1,5 +1,5 @@
 "use client";
-import { getUserDataAction } from "@/actions/auth";
+import { DataActions } from "@/actions/dataActions";
 import { ICategory, IUser } from "@/types";
 import {
   createContext,
@@ -38,7 +38,7 @@ const MyState = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const data = await getUserDataAction();
+      const data = await DataActions("get", "auth/me");
       if (data.success) return setUser(data.data);
       return setUser(null);
     };

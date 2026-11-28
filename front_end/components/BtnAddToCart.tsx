@@ -4,8 +4,8 @@ import { useUserContext } from "@/context/MyState";
 import { toast } from "react-toastify";
 import { ICart } from "@/types";
 import { SetStateAction, useState } from "react";
-import { handleToogleCartAction } from "@/actions/product";
 import { Plus, Trash2, LoaderCircle } from "lucide-react";
+import { DataActions } from "@/actions/dataActions";
 
 const BtnAddToCart = ({
   productId,
@@ -24,14 +24,12 @@ const BtnAddToCart = ({
     if (!user) return toast.error("Sorry, you must login.");
     if (loading) return;
     setLoading(true);
-    const result = await handleToogleCartAction(productId);
-
+    const result = await DataActions("post", `carts/${productId}`);
     if (!result.success) {
       toast.error(result.message);
       setLoading(false);
       return;
     }
-
     if (setCart && result.data === false) {
       setCart((pre) => {
         if (!pre?.carts) return pre;

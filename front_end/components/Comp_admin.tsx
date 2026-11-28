@@ -7,7 +7,7 @@ import { ISearchParams } from "@/types";
 import Link from "next/link";
 import { useUserContextAdmin } from "@/context/AdminMyState";
 import { useEffect } from "react";
-import { AdminDashboardCountsAction } from "@/actions/admin";
+import { DataActions } from "@/actions/dataActions";
 
 const Comp_admin = ({ page, search }: ISearchParams) => {
   const { AdminCounts, setAdminCounts } = useUserContextAdmin();
@@ -15,7 +15,7 @@ const Comp_admin = ({ page, search }: ISearchParams) => {
   useEffect(() => {
     const fetchAdminDashboardCounts = async () => {
       if (AdminCounts !== null) return;
-      const data = await AdminDashboardCountsAction();
+      const data = await DataActions("get", "admin-dashboard", undefined, null);
       if (!data.success) return;
       setAdminCounts(data?.data);
     };

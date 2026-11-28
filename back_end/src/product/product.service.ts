@@ -150,6 +150,7 @@ export class ProductService {
         price: true,
         star: true,
         discount: true,
+        createdAt: true,
         category: {
           select: {
             id: true,

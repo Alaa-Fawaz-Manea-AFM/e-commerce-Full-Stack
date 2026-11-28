@@ -1,5 +1,6 @@
 import { Filter, ProductDiv } from "@/components";
 import BtnPaginations from "@/components/BtnPaginations";
+import { useUserContext } from "@/context/MyState";
 import { AxiosServer } from "@/lib/axios-server";
 import { IProductAndMeta, ISearchParams } from "@/types";
 import { Metadata } from "next";
