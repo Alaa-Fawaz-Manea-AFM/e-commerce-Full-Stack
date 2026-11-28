@@ -200,6 +200,7 @@ Make sure to configure the required environment variables in the deployment sett
 **Alaa Fawaz Manea**
 
 - **GitHub:** [Alaa-Fawaz-Manea-AFM](https://github.com/Alaa-Fawaz-Manea-AFM)
+- **LinkedIn:** [Alaa Fawaz Manea](https://linkedin.com/in/alaa-fawaz-manea/)
 
 ---
 
