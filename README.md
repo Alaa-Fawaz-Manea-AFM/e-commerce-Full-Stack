@@ -20,7 +20,7 @@ A modern full-stack E-Commerce platform built with Next.js and NestJS, featuring
 ## 🛠️ Technical Stack
 
 - **Frontend:** `Next.js` • `TypeScript` • `Tailwind CSS v4` • `Redux Toolkit` • `Shadcn/ui`
-- **Backend:** `NestJS` • `Node.js` • `RESTful APIs` • `Class-Validator`
+- * **Backend:** `NestJS` • `Node.js` • `TypeScript` • `RESTful APIs` • `Class-Validator`
 - **Database & ORM:** `PostgreSQL` • `Prisma ORM`
 - **Caching:** `Redis`
 - **Deployment:** `Vercel` • `Railway`
