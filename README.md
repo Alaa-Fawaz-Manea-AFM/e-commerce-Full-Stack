@@ -23,7 +23,7 @@ A modern full-stack E-Commerce platform built with Next.js and NestJS, featuring
 - * **Backend:** `NestJS` • `Node.js` • `TypeScript` • `RESTful APIs` • `Class-Validator`
 - **Database & ORM:** `PostgreSQL` • `Prisma ORM`
 - **Caching:** `Redis`
-- **Deployment:** `Vercel` • `Railway`
+- **Deployment:** `Vercel`
 
 ## 📐 Database Architecture
 
@@ -35,25 +35,8 @@ A modern full-stack E-Commerce platform built with Next.js and NestJS, featuring
 
 ## 💻 Getting Started
 
-1. **Clone the repository:**
-   ```bash
-   git clone YOUR_REPOSITORY_URL
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables:**
-   Create `.env` files with the required configuration.
-
-4. **Run database migrations:**
-   ```bash
-   npx prisma migrate dev
-   ```
-
-5. **Start the development servers:**
-   ```bash
-   npm run dev
-   ```
+1. **Clone the repo:** `git clone https://github.com/Alaa-Fawaz-Manea-AFM/e-commerce-Full-Stack`
+2. **Install deps:** `npm install`
+3. **Setup environment:** Create a `.env` file with `DATABASE_URL`, `CLOUDINARY_URL`, and `JWT_SECRET`.
+4. **Run migrations:** `npx prisma migrate dev`
+5. **Start dev server:** `npm run start:dev`
