@@ -1,4 +1,4 @@
-# 🛒 NEXUS – Full-Stack E-Commerce Platform
+# 🛒 Full-Stack E-Commerce Platform
 
 A modern and scalable Full-Stack E-Commerce platform built with **Next.js** and **NestJS**, featuring a responsive storefront, advanced product management, secure authentication, order processing, and comprehensive Admin and Vendor dashboards.
 
@@ -6,7 +6,6 @@ A modern and scalable Full-Stack E-Commerce platform built with **Next.js** and 
 
 - **Frontend Application:** [Visit NEXUS](https://e-commerce-full-stack-uebm.vercel.app/)
 - **Backend API:** [Backend Server](https://e-commerce-full-stack-steel.vercel.app/#cart)
-- **API Documentation:** [Swagger Documentation](https://e-commerce-full-stack-steel.vercel.app/#cart)
 
 ## ✨ Key Features
 
