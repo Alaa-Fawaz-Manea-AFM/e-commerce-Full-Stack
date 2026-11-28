@@ -1,30 +1,59 @@
-# 🛒 NEXUS - Advanced Full-Stack E-Commerce Platform
+# 🛒 NEXUS – Full-Stack E-Commerce Platform
 
-A high-performance, enterprise-grade E-Commerce ecosystem built using the PERN stack. It features a highly responsive customer storefront, a comprehensive multi-vendor admin dashboard, real-time inventory tracking, and secure payment gateway integrations.
+A modern full-stack E-Commerce platform built with Next.js and NestJS, featuring a responsive storefront, advanced product management, secure authentication, order processing, and comprehensive admin and vendor dashboards.
+
+## 🌐 Live Demo
+
+- **Frontend:** [Visit NEXUS](https://e-commerce-full-stack-uebm.vercel.app/)
+- **Backend API:** [API Base URL](https://e-commerce-full-stack-steel.vercel.app/#cart)
+- **API Documentation:** [Swagger Docs](https://e-commerce-full-stack-steel.vercel.app/#cart)
 
 ## ✨ Key Features
-* **🔐 Advanced Auth & RBAC:** Secure session management with JWT (Access/Refresh Tokens) and strict Role-Based Access Control (Admin, Vendor, Customer).
-* **💳 Secure Payments Integration:** Fully integrated with Stripe and local Egyptian payment gateways (Fawry/Paymob) for seamless checkout.
-* **📦 Dynamic Inventory & Cart Management:** Real-time stock sync preventing overselling, with persistent database-backed guest carts.
-* **📈 Rich Vendor Dashboard:** Comprehensive analytics panel for vendors to track sales metrics, revenue, and inventory levels with charts.
-* **🚀 Performance Tuning:** Optimized server-side rendering (SSR) for product listing pages to boost SEO and performance.
+
+- **🔐 Advanced Authentication & RBAC:** Secure JWT-based authentication with Access and Refresh Tokens and role-based access control for Admins, Vendors, and Customers.
+- **💳 Payment Integration:** Secure checkout and payment processing through supported payment gateways.
+- **📦 Inventory & Cart Management:** Dynamic inventory tracking, stock management, and persistent shopping carts.
+- **📈 Vendor Dashboard:** Comprehensive dashboard for managing products, orders, sales, and business analytics.
+- **🚀 Performance Optimization:** Server-side rendering (SSR) and optimized product listing pages for better SEO and performance.
+- **🛍️ Product Management:** Product categorization, filtering, searching, and detailed product pages.
 
 ## 🛠️ Technical Stack
-* **Frontend:** `Next.js 14/15` • `TypeScript` • `TailwindCSS v4` • `Redux Toolkit` • `Shadcn/ui`
-* **Backend:** `NestJS` • `Node.js` • `RESTful APIs` • `Class-Validator`
-* **Database & Caching:** `PostgreSQL` • `Prisma ORM` • `Redis` (for session & product caching)
-* **Hosting:** `Railway` (Backend/DB) • `Vercel` (Frontend)
 
-## 📐 Database Architecture Insights
-* Designed a relational PostgreSQL schema optimizing 1-to-Many (Products to Reviews) and Many-to-Many (Orders to Products) relationships.
-* Implemented **Redis Caching** for global product catalogs and search queries, **reducing database read loads by 35%** and achieving sub-50ms server responses.
+- **Frontend:** `Next.js` • `TypeScript` • `Tailwind CSS v4` • `Redux Toolkit` • `Shadcn/ui`
+- **Backend:** `NestJS` • `Node.js` • `RESTful APIs` • `Class-Validator`
+- **Database & ORM:** `PostgreSQL` • `Prisma ORM`
+- **Caching:** `Redis`
+- **Deployment:** `Vercel` • `Railway`
+
+## 📐 Database Architecture
+
+- Designed relational database schemas using PostgreSQL and Prisma ORM.
+- Implemented One-to-Many and Many-to-Many relationships to manage products, reviews, orders, and customers.
+- Integrated Redis caching for improved data retrieval and application performance.
 
 ---
 
 ## 💻 Getting Started
 
-1. **Clone the repo:** `git clone https://github.com/YOUR_USERNAME/next-nestjs-ecommerce.git`
-2. **Install deps:** `npm install`
-3. **Setup environment:** Create a `.env` file with `DATABASE_URL`, `REDIS_URL`, `STRIPE_SECRET_KEY`, and `JWT_SECRET`.
-4. **Run migrations:** `npx prisma migrate dev`
-5. **Start dev server:** `npm run dev`
+1. **Clone the repository:**
+   ```bash
+   git clone YOUR_REPOSITORY_URL
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables:**
+   Create `.env` files with the required configuration.
+
+4. **Run database migrations:**
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. **Start the development servers:**
+   ```bash
+   npm run dev
+   ```
